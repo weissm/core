@@ -101,6 +101,7 @@ FLOWS = [
     "nut",
     "nws",
     "onvif",
+    "opengarage",
     "opentherm_gw",
     "openuv",
     "owntracks",
