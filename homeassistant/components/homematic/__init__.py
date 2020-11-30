@@ -10,7 +10,10 @@ from homeassistant.const import (
     ATTR_ENTITY_ID,
     ATTR_MODE,
     ATTR_NAME,
+<<<<<<< HEAD
     ATTR_TIME,
+=======
+>>>>>>> Added improved cover naming for channels
     CONF_FRIENDLY_NAME,
     CONF_HOST,
     CONF_HOSTS,
