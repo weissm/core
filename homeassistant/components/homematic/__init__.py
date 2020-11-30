@@ -11,6 +11,7 @@ from homeassistant.const import (
     ATTR_MODE,
     ATTR_NAME,
     ATTR_TIME,
+    CONF_FRIENDLY_NAME,
     CONF_HOST,
     CONF_HOSTS,
     CONF_PASSWORD,
@@ -99,6 +100,7 @@ DEVICE_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_PLATFORM): "homematic",
         vol.Required(ATTR_NAME): cv.string,
+        vol.Required(CONF_FRIENDLY_NAME): cv.string,
         vol.Required(ATTR_ADDRESS): cv.string,
         vol.Required(ATTR_INTERFACE): cv.string,
         vol.Optional(ATTR_DEVICE_TYPE): cv.string,
@@ -527,6 +529,7 @@ def _get_devices(hass, discovery_type, keys, interface):
                 "%s: Handling %s: %s: %s", discovery_type, key, param, channels
             )
             for channel in channels:
+                channel_name = device.CHANNELS[channel].NAME
                 name = _create_ha_id(
                     name=device.NAME, channel=channel, param=param, count=len(channels)
                 )
@@ -537,7 +540,8 @@ def _get_devices(hass, discovery_type, keys, interface):
                     CONF_PLATFORM: "homematic",
                     ATTR_ADDRESS: key,
                     ATTR_INTERFACE: interface,
-                    ATTR_NAME: name,
+                    ATTR_NAME: name + ":" + channel_name,
+                    CONF_FRIENDLY_NAME: channel_name,
                     ATTR_DEVICE_TYPE: class_name,
                     ATTR_CHANNEL: channel,
                     ATTR_UNIQUE_ID: unique_id,
