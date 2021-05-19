@@ -227,7 +227,7 @@ aiopylgtv==0.4.0
 aiorecollect==1.0.4
 
 # homeassistant.components.shelly
-aioshelly==0.6.2
+aioshelly==0.6.3
 
 # homeassistant.components.switcher_kis
 aioswitcher==1.2.1
@@ -581,7 +581,7 @@ eternalegypt==0.0.12
 # evdev==1.4.0
 
 # homeassistant.components.evohome
-evohome-async==0.3.8
+evohome-async==0.3.15
 
 # homeassistant.components.faa_delays
 faadelays==0.0.7
@@ -997,7 +997,7 @@ netdata==0.2.0
 netdisco==2.8.3
 
 # homeassistant.components.nam
-nettigo-air-monitor==0.2.5
+nettigo-air-monitor==0.2.6
 
 # homeassistant.components.neurio_energy
 neurio==0.3.1
