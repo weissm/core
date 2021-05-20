@@ -309,7 +309,7 @@ emulated_roku==0.2.1
 enocean==0.50
 
 # homeassistant.components.enphase_envoy
-envoy_reader==0.18.4
+envoy_reader==0.19.0
 
 # homeassistant.components.season
 ephem==3.7.7.0
@@ -1253,7 +1253,7 @@ vultr==0.1.2
 wakeonlan==2.0.1
 
 # homeassistant.components.folder_watcher
-watchdog==2.1.1
+watchdog==2.1.2
 
 # homeassistant.components.wiffi
 wiffi==1.0.1
