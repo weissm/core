@@ -159,7 +159,6 @@ class ClimateSchema:
     CONF_ON_OFF_INVERT = "on_off_invert"
     CONF_MIN_TEMP = "min_temp"
     CONF_MAX_TEMP = "max_temp"
-    CONF_CREATE_TEMPERATURE_SENSORS = "create_temperature_sensors"
 
     DEFAULT_NAME = "KNX Climate"
     DEFAULT_SETPOINT_SHIFT_MODE = "DPT6010"
@@ -171,6 +170,8 @@ class ClimateSchema:
     SCHEMA = vol.All(
         # deprecated since September 2020
         cv.deprecated("setpoint_shift_step", replacement_key=CONF_TEMPERATURE_STEP),
+        # deprecated since 2021.6
+        cv.deprecated("create_temperature_sensors"),
         vol.Schema(
             {
                 vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -228,9 +229,6 @@ class ClimateSchema:
                 ),
                 vol.Optional(CONF_MIN_TEMP): vol.Coerce(float),
                 vol.Optional(CONF_MAX_TEMP): vol.Coerce(float),
-                vol.Optional(
-                    CONF_CREATE_TEMPERATURE_SENSORS, default=False
-                ): cv.boolean,
             }
         ),
     )
@@ -523,27 +521,29 @@ class WeatherSchema:
     CONF_KNX_DAY_NIGHT_ADDRESS = "address_day_night"
     CONF_KNX_AIR_PRESSURE_ADDRESS = "address_air_pressure"
     CONF_KNX_HUMIDITY_ADDRESS = "address_humidity"
-    CONF_KNX_CREATE_SENSORS = "create_sensors"
 
     DEFAULT_NAME = "KNX Weather Station"
 
-    SCHEMA = vol.Schema(
-        {
-            vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-            vol.Optional(CONF_SYNC_STATE, default=True): sync_state_validator,
-            vol.Optional(CONF_KNX_CREATE_SENSORS, default=False): cv.boolean,
-            vol.Required(CONF_KNX_TEMPERATURE_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_BRIGHTNESS_SOUTH_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_BRIGHTNESS_EAST_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_BRIGHTNESS_WEST_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_BRIGHTNESS_NORTH_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_WIND_SPEED_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_WIND_BEARING_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_RAIN_ALARM_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_FROST_ALARM_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_WIND_ALARM_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_DAY_NIGHT_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_AIR_PRESSURE_ADDRESS): ga_list_validator,
-            vol.Optional(CONF_KNX_HUMIDITY_ADDRESS): ga_list_validator,
-        }
+    SCHEMA = vol.All(
+        # deprecated since 2021.6
+        cv.deprecated("create_sensors"),
+        vol.Schema(
+            {
+                vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
+                vol.Optional(CONF_SYNC_STATE, default=True): sync_state_validator,
+                vol.Required(CONF_KNX_TEMPERATURE_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_BRIGHTNESS_SOUTH_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_BRIGHTNESS_EAST_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_BRIGHTNESS_WEST_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_BRIGHTNESS_NORTH_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_WIND_SPEED_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_WIND_BEARING_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_RAIN_ALARM_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_FROST_ALARM_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_WIND_ALARM_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_DAY_NIGHT_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_AIR_PRESSURE_ADDRESS): ga_list_validator,
+                vol.Optional(CONF_KNX_HUMIDITY_ADDRESS): ga_list_validator,
+            }
+        ),
     )
