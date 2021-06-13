@@ -129,7 +129,7 @@ aio_geojson_geonetnz_quakes==0.12
 aio_geojson_geonetnz_volcano==0.6
 
 # homeassistant.components.nsw_rural_fire_service_feed
-aio_geojson_nsw_rfs_incidents==0.3
+aio_geojson_nsw_rfs_incidents==0.4
 
 # homeassistant.components.gdacs
 aio_georss_gdacs==0.5
@@ -254,7 +254,7 @@ aladdin_connect==0.3
 alpha_vantage==2.3.1
 
 # homeassistant.components.ambee
-ambee==0.2.1
+ambee==0.3.0
 
 # homeassistant.components.ambiclimate
 ambiclimate==0.2.1
@@ -641,7 +641,7 @@ gTTS==2.2.2
 garages-amsterdam==2.1.1
 
 # homeassistant.components.garmin_connect
-garminconnect_aio==0.1.4
+garminconnect_ha==0.1.6
 
 # homeassistant.components.geniushub
 geniushub-client==0.6.30
@@ -654,7 +654,7 @@ geojson_client==0.6
 geopy==2.1.0
 
 # homeassistant.components.geo_rss_events
-georss_generic_client==0.4
+georss_generic_client==0.6
 
 # homeassistant.components.ign_sismologia
 georss_ign_sismologia_client==0.2
@@ -1761,7 +1761,7 @@ pysnmp==4.4.12
 pysoma==0.0.10
 
 # homeassistant.components.sonos
-pysonos==0.0.50
+pysonos==0.0.51
 
 # homeassistant.components.spc
 pyspcwebgw==0.4.0
@@ -2362,7 +2362,7 @@ wirelesstagpy==0.4.1
 withings-api==2.3.2
 
 # homeassistant.components.wled
-wled==0.5.0
+wled==0.6.0
 
 # homeassistant.components.wolflink
 wolf_smartset==0.1.8
@@ -2377,7 +2377,7 @@ xbox-webapi==2.0.11
 xboxapi==2.0.1
 
 # homeassistant.components.knx
-xknx==0.18.5
+xknx==0.18.6
 
 # homeassistant.components.bluesound
 # homeassistant.components.rest
