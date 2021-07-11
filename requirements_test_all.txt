@@ -100,7 +100,7 @@ aioeafm==0.1.2
 aioemonitor==1.0.5
 
 # homeassistant.components.esphome
-aioesphomeapi==4.0.1
+aioesphomeapi==5.0.1
 
 # homeassistant.components.flo
 aioflo==0.4.1
@@ -112,7 +112,7 @@ aioguardian==1.0.4
 aioharmony==0.2.7
 
 # homeassistant.components.homekit_controller
-aiohomekit==0.4.2
+aiohomekit==0.5.0
 
 # homeassistant.components.emulated_hue
 # homeassistant.components.http
@@ -191,7 +191,7 @@ apprise==0.9.3
 aprslib==0.6.46
 
 # homeassistant.components.arcam_fmj
-arcam-fmj==0.5.3
+arcam-fmj==0.7.0
 
 # homeassistant.components.dlna_dmr
 # homeassistant.components.ssdp
@@ -769,7 +769,7 @@ pycoolmasternet-async==0.1.2
 pydaikin==2.4.4
 
 # homeassistant.components.deconz
-pydeconz==80
+pydeconz==81
 
 # homeassistant.components.dexcom
 pydexcom==0.2.0
@@ -887,7 +887,7 @@ pymailgunner==1.4
 pymata-express==1.19
 
 # homeassistant.components.mazda
-pymazda==0.1.6
+pymazda==0.2.0
 
 # homeassistant.components.melcloud
 pymelcloud==2.5.3
@@ -1083,7 +1083,7 @@ pyvolumio==0.1.3
 pywebpush==1.9.2
 
 # homeassistant.components.wemo
-pywemo==0.6.3
+pywemo==0.6.5
 
 # homeassistant.components.wilight
 pywilight==0.0.70
@@ -1344,7 +1344,7 @@ zigpy-zigate==0.7.3
 zigpy-znp==0.5.1
 
 # homeassistant.components.zha
-zigpy==0.35.1
+zigpy==0.35.2
 
 # homeassistant.components.zwave_js
 zwave-js-server-python==0.27.0
