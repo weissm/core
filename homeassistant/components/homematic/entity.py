@@ -8,7 +8,7 @@ import logging
 from pyhomematic import HMConnection
 from pyhomematic.devicetypes.generic import HMGeneric
 
-from homeassistant.const import ATTR_NAME
+from homeassistant.const import ATTR_FRIENDLY_NAME, ATTR_NAME
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import Entity, EntityDescription
 from homeassistant.helpers.event import track_time_interval
@@ -43,7 +43,8 @@ class HMDevice(Entity):
         entity_description: EntityDescription | None = None,
     ) -> None:
         """Initialize a generic HomeMatic device."""
-        self._name = config.get(ATTR_NAME)
+        self.entity_id = f"{DOMAIN}.{config.get(ATTR_NAME)}"
+        self._name = config.get(ATTR_FRIENDLY_NAME)
         self._address = config.get(ATTR_ADDRESS)
         self._interface = config.get(ATTR_INTERFACE)
         self._channel = config.get(ATTR_CHANNEL)
