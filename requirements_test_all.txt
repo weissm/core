@@ -76,7 +76,7 @@ adext==0.4.2
 adguardhome==0.6.1
 
 # homeassistant.components.advantage_air
-advantage_air==0.4.1
+advantage_air==0.4.2
 
 # homeassistant.components.frontier_silicon
 afsapi==0.2.7
@@ -227,7 +227,7 @@ aiopvpc==4.1.0
 # homeassistant.components.lidarr
 # homeassistant.components.radarr
 # homeassistant.components.sonarr
-aiopyarr==22.11.0
+aiopyarr==23.4.0
 
 # homeassistant.components.qnap_qsw
 aioqsw==0.3.2
@@ -263,7 +263,7 @@ aiosomecomfort==0.0.14
 aiosteamist==0.3.2
 
 # homeassistant.components.switcher_kis
-aioswitcher==3.2.1
+aioswitcher==3.3.0
 
 # homeassistant.components.syncthing
 aiosyncthing==0.5.1
@@ -517,7 +517,7 @@ energyzero==0.4.1
 enocean==0.50
 
 # homeassistant.components.environment_canada
-env_canada==0.5.30
+env_canada==0.5.32
 
 # homeassistant.components.enphase_envoy
 envoy_reader==0.20.1
@@ -553,7 +553,7 @@ fjaraskupan==2.2.0
 flipr-api==1.5.0
 
 # homeassistant.components.flux_led
-flux_led==0.28.36
+flux_led==0.28.37
 
 # homeassistant.components.homekit
 # homeassistant.components.recorder
@@ -693,7 +693,7 @@ hole==0.8.0
 holidays==0.21.13
 
 # homeassistant.components.frontend
-home-assistant-frontend==20230406.1
+home-assistant-frontend==20230411.0
 
 # homeassistant.components.conversation
 home-assistant-intents==2023.3.29
@@ -702,7 +702,7 @@ home-assistant-intents==2023.3.29
 homeconnect==0.7.2
 
 # homeassistant.components.homematicip_cloud
-homematicip==1.0.13
+homematicip==1.0.14
 
 # homeassistant.components.home_plus_control
 homepluscontrol==0.0.5
@@ -997,7 +997,7 @@ pilight==0.1.1
 # homeassistant.components.seven_segments
 # homeassistant.components.sighthound
 # homeassistant.components.tensorflow
-pillow==9.4.0
+pillow==9.5.0
 
 # homeassistant.components.plex
 plexapi==4.13.2
@@ -1523,7 +1523,7 @@ python-telegram-bot==13.1
 python_awair==0.2.4
 
 # homeassistant.components.tile
-pytile==2022.02.0
+pytile==2023.04.0
 
 # homeassistant.components.tomorrowio
 pytomorrowio==0.3.5
@@ -1709,11 +1709,11 @@ speedtest-cli==2.1.3
 spiderpy==1.6.1
 
 # homeassistant.components.spotify
-spotipy==2.22.1
+spotipy==2.23.0
 
 # homeassistant.components.recorder
 # homeassistant.components.sql
-sqlalchemy==2.0.8
+sqlalchemy==2.0.9
 
 # homeassistant.components.srp_energy
 srpenergy==1.3.6
@@ -1797,7 +1797,7 @@ total_connect_client==2023.2
 tplink-omada-client==1.1.4
 
 # homeassistant.components.transmission
-transmission-rpc==3.4.0
+transmission-rpc==4.1.5
 
 # homeassistant.components.twinkly
 ttls==1.5.1
@@ -1851,6 +1851,9 @@ venstarcolortouch==0.19
 
 # homeassistant.components.vilfo
 vilfo-api-client==0.3.2
+
+# homeassistant.components.voip
+voip-utils==0.0.2
 
 # homeassistant.components.volvooncall
 volvooncall==0.10.2
