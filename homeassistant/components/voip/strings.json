@@ -2,16 +2,31 @@
   "config": {
     "step": {
       "user": {
-        "data": {
-          "ip_address": "IP Address"
-        }
+        "description": "Receive Voice over IP calls to interact with Assist."
       }
     },
     "abort": {
       "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "call_active": {
+        "name": "Call Active"
+      }
     },
-    "error": {
-      "invalid_ip_address": "Invalid IPv4 address."
+    "switch": {
+      "allow_call": {
+        "name": "Allow Calls"
+      }
+    },
+    "select": {
+      "pipeline": {
+        "name": "[%key:component::assist_pipeline::entity::select::pipeline::name%]",
+        "state": {
+          "preferred": "[%key:component::assist_pipeline::entity::select::pipeline::state::preferred%]"
+        }
+      }
     }
   }
 }
