@@ -27,6 +27,8 @@ from .conftest import (
     timeseries_response,
 )
 
+from tests.common import MockConfigEntry
+
 DEVICE_RESPONSE_CHARGE_2 = {
     "battery": "Medium",
     "batteryLevel": 60,
@@ -536,15 +538,8 @@ async def test_settings_scope_config_entry(
     integration_setup: Callable[[], Awaitable[bool]],
     register_timeseries: Callable[[str, dict[str, Any]], None],
 ) -> None:
-    """Test heartrate sensors are enabled."""
+    """Test device sensors are enabled."""
 
-    for api_resource in ("activities/heart",):
-        register_timeseries(
-            api_resource,
-            timeseries_response(
-                api_resource.replace("/", "-"), {"restingHeartRate": "0"}
-            ),
-        )
     assert await integration_setup()
 
     states = hass.states.async_all()
@@ -577,6 +572,88 @@ async def test_sensor_update_failed(
     assert state
     assert state.state == "unavailable"
 
+    # Verify the config entry is in a normal state (no reauth required)
+    flows = hass.config_entries.flow.async_progress()
+    assert not flows
+
+
+@pytest.mark.parametrize(
+    ("scopes"),
+    [(["heartrate"])],
+)
+async def test_sensor_update_failed_requires_reauth(
+    hass: HomeAssistant,
+    setup_credentials: None,
+    integration_setup: Callable[[], Awaitable[bool]],
+    requests_mock: Mocker,
+) -> None:
+    """Test a sensor update request requires reauth."""
+
+    requests_mock.register_uri(
+        "GET",
+        TIMESERIES_API_URL_FORMAT.format(resource="activities/heart"),
+        status_code=HTTPStatus.UNAUTHORIZED,
+        json={
+            "errors": [{"errorType": "invalid_grant"}],
+        },
+    )
+
+    assert await integration_setup()
+
+    state = hass.states.get("sensor.resting_heart_rate")
+    assert state
+    assert state.state == "unavailable"
+
+    # Verify that reauth is required
+    flows = hass.config_entries.flow.async_progress()
+    assert len(flows) == 1
+    assert flows[0]["step_id"] == "reauth_confirm"
+
+
+@pytest.mark.parametrize(
+    ("scopes"),
+    [(["heartrate"])],
+)
+async def test_sensor_update_success(
+    hass: HomeAssistant,
+    setup_credentials: None,
+    integration_setup: Callable[[], Awaitable[bool]],
+    requests_mock: Mocker,
+) -> None:
+    """Test API failure for a battery level sensor for devices."""
+
+    requests_mock.register_uri(
+        "GET",
+        TIMESERIES_API_URL_FORMAT.format(resource="activities/heart"),
+        [
+            {
+                "status_code": HTTPStatus.OK,
+                "json": timeseries_response(
+                    "activities-heart", {"restingHeartRate": "60"}
+                ),
+            },
+            {
+                "status_code": HTTPStatus.OK,
+                "json": timeseries_response(
+                    "activities-heart", {"restingHeartRate": "70"}
+                ),
+            },
+        ],
+    )
+
+    assert await integration_setup()
+
+    state = hass.states.get("sensor.resting_heart_rate")
+    assert state
+    assert state.state == "60"
+
+    await async_update_entity(hass, "sensor.resting_heart_rate")
+    await hass.async_block_till_done()
+
+    state = hass.states.get("sensor.resting_heart_rate")
+    assert state
+    assert state.state == "70"
+
 
 @pytest.mark.parametrize(
     ("scopes", "mock_devices"),
@@ -594,11 +671,6 @@ async def test_device_battery_level_update_failed(
         "GET",
         DEVICES_API_URL,
         [
-            {
-                "status_code": HTTPStatus.OK,
-                "json": [DEVICE_RESPONSE_CHARGE_2],
-            },
-            # A second spurious update request on startup
             {
                 "status_code": HTTPStatus.OK,
                 "json": [DEVICE_RESPONSE_CHARGE_2],
@@ -626,7 +698,63 @@ async def test_device_battery_level_update_failed(
 
     # Request an update for the entity which will fail
     await async_update_entity(hass, "sensor.charge_2_battery")
+    await hass.async_block_till_done()
 
     state = hass.states.get("sensor.charge_2_battery")
     assert state
     assert state.state == "unavailable"
+
+    # Verify the config entry is in a normal state (no reauth required)
+    flows = hass.config_entries.flow.async_progress()
+    assert not flows
+
+
+@pytest.mark.parametrize(
+    ("scopes", "mock_devices"),
+    [(["settings"], None)],
+)
+async def test_device_battery_level_reauth_required(
+    hass: HomeAssistant,
+    setup_credentials: None,
+    integration_setup: Callable[[], Awaitable[bool]],
+    config_entry: MockConfigEntry,
+    requests_mock: Mocker,
+) -> None:
+    """Test API failure requires reauth."""
+
+    requests_mock.register_uri(
+        "GET",
+        DEVICES_API_URL,
+        [
+            {
+                "status_code": HTTPStatus.OK,
+                "json": [DEVICE_RESPONSE_CHARGE_2],
+            },
+            # Fail when requesting an update
+            {
+                "status_code": HTTPStatus.UNAUTHORIZED,
+                "json": {
+                    "errors": [{"errorType": "invalid_grant"}],
+                },
+            },
+        ],
+    )
+
+    assert await integration_setup()
+
+    state = hass.states.get("sensor.charge_2_battery")
+    assert state
+    assert state.state == "Medium"
+
+    # Request an update for the entity which will fail
+    await async_update_entity(hass, "sensor.charge_2_battery")
+    await hass.async_block_till_done()
+
+    state = hass.states.get("sensor.charge_2_battery")
+    assert state
+    assert state.state == "unavailable"
+
+    # Verify that reauth is required
+    flows = hass.config_entries.flow.async_progress()
+    assert len(flows) == 1
+    assert flows[0]["step_id"] == "reauth_confirm"
