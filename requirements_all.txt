@@ -218,7 +218,7 @@ aiobotocore==2.6.0
 aiocomelit==0.6.2
 
 # homeassistant.components.dhcp
-aiodiscover==1.5.1
+aiodiscover==1.6.0
 
 # homeassistant.components.dnsip
 aiodns==3.0.0
@@ -598,7 +598,7 @@ brunt==1.2.0
 bt-proximity==0.2.1
 
 # homeassistant.components.bthome
-bthome-ble==3.2.0
+bthome-ble==3.3.1
 
 # homeassistant.components.bt_home_hub_5
 bthomehub5-devicelist==0.1.1
@@ -904,7 +904,7 @@ gios==3.2.2
 gitterpy==0.1.7
 
 # homeassistant.components.glances
-glances-api==0.4.3
+glances-api==0.5.0
 
 # homeassistant.components.goalzero
 goalzero==0.2.2
@@ -2324,7 +2324,7 @@ pyzbar==0.1.7
 pyzerproc==0.4.8
 
 # homeassistant.components.qingping
-qingping-ble==0.8.2
+qingping-ble==0.9.0
 
 # homeassistant.components.qnap
 qnapstats==0.4.0
