@@ -1,15 +1,20 @@
 """Fixtures for component testing."""
 
-from collections.abc import Generator
+from collections.abc import Callable, Generator
 from typing import TYPE_CHECKING, Any
 from unittest.mock import MagicMock, patch
 
 import pytest
 
 from homeassistant.const import STATE_OFF, STATE_ON
+from homeassistant.core import HomeAssistant
+
+from tests.common import MockToggleEntity
 
 if TYPE_CHECKING:
+    from tests.components.device_tracker.common import MockScanner
     from tests.components.light.common import MockLight
+    from tests.components.sensor.common import MockSensor
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -118,3 +123,37 @@ def mock_light_entities() -> list["MockLight"]:
         MockLight("Ceiling", STATE_OFF),
         MockLight(None, STATE_OFF),
     ]
+
+
+@pytest.fixture
+def mock_sensor_entities() -> dict[str, "MockSensor"]:
+    """Return mocked sensor entities."""
+    from tests.components.sensor.common import get_mock_sensor_entities
+
+    return get_mock_sensor_entities()
+
+
+@pytest.fixture
+def mock_toggle_entities() -> list[MockToggleEntity]:
+    """Return mocked toggle entities."""
+    from tests.components.switch.common import get_mock_toggle_entities
+
+    return get_mock_toggle_entities()
+
+
+@pytest.fixture
+def mock_legacy_device_scanner() -> "MockScanner":
+    """Return mocked legacy device scanner entity."""
+    from tests.components.device_tracker.common import MockScanner
+
+    return MockScanner()
+
+
+@pytest.fixture
+def mock_legacy_device_tracker_setup() -> (
+    Callable[[HomeAssistant, "MockScanner"], None]
+):
+    """Return setup callable for legacy device tracker setup."""
+    from tests.components.device_tracker.common import mock_legacy_device_tracker_setup
+
+    return mock_legacy_device_tracker_setup
