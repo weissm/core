@@ -13,7 +13,6 @@ from collections.abc import (
     Mapping,
     ValuesView,
 )
-import contextlib
 from contextvars import ContextVar
 from copy import deepcopy
 from enum import Enum, StrEnum
@@ -463,8 +462,7 @@ class ConfigEntry:
 
     def clear_cache(self) -> None:
         """Clear cached properties."""
-        with contextlib.suppress(AttributeError):
-            delattr(self, "as_json_fragment")
+        self.__dict__.pop("as_json_fragment", None)
 
     @cached_property
     def as_json_fragment(self) -> json_fragment:
@@ -763,8 +761,6 @@ class ConfigEntry:
                 self._async_set_state(hass, ConfigEntryState.NOT_LOADED, None)
 
             await self._async_process_on_unload(hass)
-
-            return result
         except Exception as exc:  # pylint: disable=broad-except
             _LOGGER.exception(
                 "Error unloading entry %s for %s", self.title, integration.domain
@@ -774,6 +770,7 @@ class ConfigEntry:
                     hass, ConfigEntryState.FAILED_UNLOAD, str(exc) or "Unknown error"
                 )
             return False
+        return result
 
     async def async_remove(self, hass: HomeAssistant) -> None:
         """Invoke remove callback on component."""
@@ -872,12 +869,12 @@ class ConfigEntry:
             if result:
                 # pylint: disable-next=protected-access
                 hass.config_entries._async_schedule_save()
-            return result
         except Exception:  # pylint: disable=broad-except
             _LOGGER.exception(
                 "Error migrating entry %s for %s", self.title, self.domain
             )
             return False
+        return result
 
     def add_update_listener(self, listener: UpdateListenerType) -> CALLBACK_TYPE:
         """Listen for when entry is updated.
@@ -1073,7 +1070,7 @@ class ConfigEntry:
         task = hass.async_create_task(
             target, f"{name} {self.title} {self.domain} {self.entry_id}", eager_start
         )
-        if task.done():
+        if eager_start and task.done():
             return task
         self._tasks.add(task)
         task.add_done_callback(self._tasks.remove)
