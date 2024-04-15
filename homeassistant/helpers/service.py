@@ -93,6 +93,7 @@ def _base_components() -> dict[str, ModuleType]:
         light,
         lock,
         media_player,
+        notify,
         remote,
         siren,
         todo,
@@ -112,6 +113,7 @@ def _base_components() -> dict[str, ModuleType]:
         "light": light,
         "lock": lock,
         "media_player": media_player,
+        "notify": notify,
         "remote": remote,
         "siren": siren,
         "todo": todo,
@@ -537,16 +539,16 @@ def async_extract_referenced_entity_ids(  # noqa: C901
             for device_entry in dev_reg.devices.get_devices_for_label(label_id):
                 selected.referenced_devices.add(device_entry.id)
 
-        # Find areas for targeted labels
-        for area_entry in area_reg.areas.values():
-            if area_entry.labels.intersection(selector.label_ids):
+            for area_entry in area_reg.areas.get_areas_for_label(label_id):
                 selected.referenced_areas.add(area_entry.id)
 
     # Find areas for targeted floors
     if selector.floor_ids:
-        for area_entry in area_reg.areas.values():
-            if area_entry.id and area_entry.floor_id in selector.floor_ids:
-                selected.referenced_areas.add(area_entry.id)
+        selected.referenced_areas.update(
+            area_entry.id
+            for floor_id in selector.floor_ids
+            for area_entry in area_reg.areas.get_areas_for_floor(floor_id)
+        )
 
     # Find devices for targeted areas
     selected.referenced_devices.update(selector.device_ids)
@@ -707,7 +709,7 @@ async def async_get_all_descriptions(
             contents = await hass.async_add_executor_job(
                 _load_services_files, hass, integrations
             )
-            loaded = dict(zip(domains_with_missing_services, contents))
+            loaded = dict(zip(domains_with_missing_services, contents, strict=False))
 
     # Load translations for all service domains
     translations = await translation.async_get_translations(
@@ -991,7 +993,7 @@ async def entity_service_call(
     )
 
     response_data: EntityServiceResponse = {}
-    for entity, result in zip(entities, results):
+    for entity, result in zip(entities, results, strict=False):
         if isinstance(result, BaseException):
             raise result from None
         response_data[entity.entity_id] = result
